@@ -24,7 +24,6 @@
 		<plugin name="cordova-plugin-statusbar" spec="*"/>
 		<plugin name="cordova-plugin-extension" spec="*"/>
 		<plugin name="cordova-plugin-insomnia" spec="*"/>
-		<plugin name="SplashScreen" value="org.apache.cordova.SplashScreen"/>
 		<preference name="Orientation" value="portrait"/>
 		<preference name="CocoonSplashDelay" value="2"/>
 		<plugin name="lycwed-cordova-plugin-admobpro" spec="*">
