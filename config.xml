@@ -26,9 +26,8 @@
 		<plugin name="cordova-plugin-insomnia" spec="*"/>
 		<preference name="Orientation" value="portrait"/>
 		<preference name="CocoonSplashDelay" value="2"/>
-		<plugin name="lycwed-cordova-plugin-admobpro" spec="*">
-			<variable name="" value=""/>
-		</plugin>
+		<preference name="android-build-tool" value="gradle" />
+		<plugin name="lycwed-cordova-plugin-admobpro" spec="*"/>
 		<plugin name="cocoon-plugin-application-android" spec="*"/>
 		<preference name="android-targetSdkVersion" value="28"/>
 		<preference name="android-minSdkVersion" value="16"/>
