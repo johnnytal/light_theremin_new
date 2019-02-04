@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-	<widget id="com.com.lighttheremin" version="7.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cocoon="http://cocoon.io/ns/1.0" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+	<widget id="com.com.lighttheremin" version="7.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
 		<name>Light Theremin</name>
 		<description>Turn light to sound</description>
 		<author email="johnnytal9@gmail.com" href="http://www.ilyichgames.com"></author>
@@ -25,10 +25,8 @@
 		<plugin name="cordova-plugin-extension" spec="*"/>
 		<plugin name="cordova-plugin-insomnia" spec="*"/>
 		<preference name="Orientation" value="portrait"/>
-		<preference name="CocoonSplashDelay" value="2"/>
 		<preference name="android-build-tool" value="gradle" />
 		<plugin name="lycwed-cordova-plugin-admobpro" spec="*"/>
-		<plugin name="cocoon-plugin-application-android" spec="*"/>
 		<preference name="android-targetSdkVersion" value="28"/>
 		<preference name="android-minSdkVersion" value="16"/>
 		<plugin name="cordova-plugin-lightsensor" spec="*"/>
