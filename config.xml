@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 	<widget id="com.com.lighttheremin" version="7.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cocoon="http://cocoon.io/ns/1.0" xmlns:cdv="http://cordova.apache.org/ns/1.0">
 		<name>Light Theremin</name>
-		<description>
-																																																																																																																																																																																																																		        A sample Cocoon application that responds to the deviceready event.
-																																																																																																																																												    </description>
-		<author email="johnnytal9@gmail.com" href="https://cocoon.io">
-																																																																																																																																																																																																																		        Johnny Tal
-																																																																																																																																												    </author>
+		<description>Turn light to sound</description>
+		<author email="johnnytal9@gmail.com" href="http://www.ilyichgames.com"></author>
 		<content src="index.html"/>
 		<plugin name="cordova-plugin-whitelist" version="1"/>
 		<access origin="*"/>
@@ -28,7 +24,7 @@
 		<plugin name="cordova-plugin-statusbar" spec="*"/>
 		<plugin name="cordova-plugin-extension" spec="*"/>
 		<plugin name="cordova-plugin-insomnia" spec="*"/>
-		<plugin name="cordova-plugin-splashscreen" spec="*"/>
+		<plugin name="SplashScreen" value="org.apache.cordova.SplashScreen"/>
 		<preference name="Orientation" value="portrait"/>
 		<preference name="CocoonSplashDelay" value="2"/>
 		<plugin name="lycwed-cordova-plugin-admobpro" spec="*">
