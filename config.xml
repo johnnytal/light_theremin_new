@@ -36,15 +36,20 @@
 		<plugin name="cordova-plugin-extension" spec="*"/>
 		
 		<plugin name="cordova-plugin-whitelist" version="1"/>
-		
-		<!--<plugin name="cordova-plugin-splashscreen" spec="*"/>
-			<preference name="SplashScreenDelay" value="2000" />
-		<preference name="SplashMaintainAspectRatio" value="true" />-->
-		
+
+		<plugin name="cordova-plugin-splashscreen" source="npm">
+		      <preference name="SplashScreen"               value="splash" />
+		      <preference name="AutoHideSplashScreen"       value="true" />
+		      <preference name="SplashScreenDelay"          value="2500" />
+		      <preference name="SplashMaintainAspectRatio"  value="true" />
+		</plugin>  
+	
+		<splash src="splash.png" />
+
 		<plugin name="cordova-plugin-admobpro" source="npm">
 			<variable name="PLAY_SERVICES_VERSION" value="16.0.0" />
 		</plugin>
 		
 		<icon src="512x512.png" />
-		<splash src="splash.png" />
+		
 	</widget>
