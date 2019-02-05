@@ -37,10 +37,10 @@
 		
 		<plugin name="cordova-plugin-whitelist" version="1"/>
 
-	   <!-- <preference name="SplashScreen"               value="splash" />
+	    <preference name="SplashScreen"               value="splash" />
 	    <preference name="AutoHideSplashScreen"       value="true" />
 	    <preference name="SplashScreenDelay"          value="2500" />
-	    <preference name="SplashMaintainAspectRatio"  value="true" /> -->
+	    <preference name="SplashMaintainAspectRatio"  value="true" />
 
 		<splash src="splash.png" />
 
