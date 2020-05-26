@@ -173,18 +173,22 @@ function readLight(reading){
             else if (frequency_check > last_frequency){ // semitone up
                 note++;
             }
-
-            if (scale == 2){
+            
+            if (scale == 1){
+                frequency = teoria.note(notes[note]).fq();
+                frequency_text = notes[note];
+            } 
+            else if (scale == 2){
                 frequency = teoria.note(notes_major[note]).fq();
                 frequency_text = notes_major[note];
-            } 
-            else if (scale == 4){
-                frequency = teoria.note(notes_blues[note]).fq();
-                frequency_text = notes_blues[note];
             } 
             else if (scale == 3){
                 frequency = teoria.note(notes_minor[note]).fq();
                 frequency_text = notes_minor[note];
+            } 
+            else if (scale == 4){
+                frequency = teoria.note(notes_blues[note]).fq();
+                frequency_text = notes_blues[note];
             } 
             else if (scale == 5){
                 frequency = teoria.note(notes_penta[note]).fq();
@@ -193,11 +197,7 @@ function readLight(reading){
             else if (scale == 6){
                 frequency = teoria.note(notes_hijaz[note]).fq();
                 frequency_text = notes_hijaz[note];
-            } 
-            else if (scale == 1){
-                frequency = teoria.note(notes[note]).fq();
-                frequency_text = notes[note];
-            } 
+            }
         }
         else{
             frequency = frequency_check; 
@@ -294,7 +294,7 @@ function buttons_labels(){
         changeTempo(); 
     }, this);
     
-    knob1 = game.add.text(15 + (plus_btn_rev.width/2), plus_btn_gliss.y - 45, 'Reverb', {
+    knob1 = game.add.text(0, plus_btn_gliss.y - 45, 'Reverb', {
         font: '28px ' + font, fill: 'lightyellow', align: 'center', stroke:'grey', strokeThickness: 1
     });
     knob1.x = 15 + (plus_btn_rev.width/2) - knob1.width / 2;
@@ -311,7 +311,7 @@ function buttons_labels(){
 
     
     Label_reverb = game.add.text(0, 0, labelsAmount[reverb], {
-        font: '45px ' + font, fill: '#101c20', fontWeight: 'normal', align: 'center', stroke:'black', strokeThickness: 1
+        font: '45px ' + font, fill: '#101c20', align: 'center', stroke:'black', strokeThickness: 1
     });
     Label_reverb.anchor.set(0.5, 0.5);
     
@@ -319,7 +319,7 @@ function buttons_labels(){
     Label_reverb.y = plus_btn_rev.y + plus_btn_rev.height/2 + 20;
 
     Label_gliss= game.add.text(0, 0, labelsAmount[glissando], {
-        font: '45px ' + font, fill: '#101c20', fontWeight: 'normal', align: 'center', stroke:'black', strokeThickness: 1
+        font: '45px ' + font, fill: '#101c20', align: 'center', stroke:'black', strokeThickness: 1
     });
     Label_gliss.anchor.set(0.5, 0.5);
     
@@ -327,7 +327,7 @@ function buttons_labels(){
     Label_gliss.y = plus_btn_gliss.y + plus_btn_gliss.height/2 + 20;
     
     Label_tempo = game.add.text(0, 0, tempos[tempo] + '\nbpm', {
-        font: '36px ' + font, fill: '#101c20', fontWeight: 'normal', align: 'center', stroke:'black', strokeThickness: 1
+        font: '36px ' + font, fill: '#101c20', align: 'center', stroke:'black', strokeThickness: 1
     });
     Label_tempo.anchor.set(0.5, 0.5);
     
@@ -341,7 +341,7 @@ function buttons_labels(){
     }, this);
     calibrate_btn_440.x = game.world.centerX;
 
-    Label_440 = game.add.text(0, 0, 'HIGH', {font: '26px ' + font, fill: 'lightyellow', fontWeight: 'normal', align: 'center'});
+    Label_440 = game.add.text(0, 0, 'HIGH', {font: '26px ' + font, fill: 'lightyellow', align: 'center'});
     
     Label_440.x = calibrate_btn_440.x + 5;
     Label_440.y = calibrate_btn_440.y + 5;
@@ -354,7 +354,7 @@ function buttons_labels(){
     calibrate_btn_880.x = game.world.centerX - calibrate_btn_880.width * 1.25;
 	calibrate_btn_880.alpha = 0.8;
 
-    Label_880 = game.add.text(0, 0, 'MED', {font: '26px ' + font, fill: 'lightyellow', fontWeight: 'normal', align: 'center'});
+    Label_880 = game.add.text(0, 0, 'MED', {font: '26px ' + font, fill: 'lightyellow', align: 'center'});
 
     Label_880.x = calibrate_btn_880.x + 5;
     Label_880.y = calibrate_btn_880.y + 5;
@@ -367,47 +367,41 @@ function buttons_labels(){
     calibrate_btn_1320.x = game.world.centerX - calibrate_btn_1320.width * 2.5;
 	calibrate_btn_1320.alpha = 0.6;
 	
-    Label_1320 = game.add.text(0, 0, 'LOW', {font: '26px ' + font, fill: 'lightyellow', fontWeight: 'normal', align: 'center'});
+    Label_1320 = game.add.text(0, 0, 'LOW', {font: '26px ' + font, fill: 'lightyellow', align: 'center'});
     Label_1320.x = calibrate_btn_1320.x + 5;
     Label_1320.y = calibrate_btn_1320.y + 5;
 
     Label_calibrate = game.add.text(Label_1320.x, Label_1320.y - Label_1320.height * 1.5, 'Calibrate to light level:', {
-        font: '28px ' + font, fill: 'white', fontWeight: 'normal', align: 'center', stroke:'grey', strokeThickness: 1
+        font: '28px ' + font, fill: 'white', align: 'center', stroke:'grey', strokeThickness: 1
     });
     
 	form1 = game.add.button(0, 250, 'blank');
-	form1.frame = 0;
 	form1.x = plus_btn_rev.x + 25;
 	form1.alpha = 0.55;
 	form1.tint = 0xf0a523;
-	form1.inputEnabled = true;
-    form1.events.onInputDown.add(change_waveform);
-	
+
 	form2 = game.add.button(0, form1.y, 'blank');
-	form2.frame = 1;
 	form2.x = plus_btn_rev.x + form2.width * 1.25 + 25;
 	form2.alpha = 0.55;
-	form2.inputEnabled = true;
-    form2.events.onInputDown.add(change_waveform);
-	
+
 	form3 = game.add.button(0, 0, 'blank');
-	form3.frame = 2;
 	form3.x = plus_btn_rev.x + 25;
 	form3.y = form2.y + form2.height * 1.25;
 	form3.alpha = 1;
 	form3.scale.set(0.92, 0.92);
-	form3.inputEnabled = true;
-	form3.events.onInputDown.add(change_waveform);
-	
+
 	form4 = game.add.button(0, 0, 'blank');
-	form4.frame = 3;
 	form4.x = plus_btn_rev.x + form2.width * 1.25 + 25;
 	form4.y = form2.y + form2.height * 1.25;
 	form4.alpha = 0.55;
-	form4.inputEnabled = true;
-    form4.events.onInputDown.add(change_waveform);
-    
+
     formsArray = [form1, form2, form3, form4];
+    
+    for (x = 0; x < formsArray.length; x++){
+    	formsArray[x].frame = x;
+		formsArray[x].inputEnabled = true;
+    	formsArray[x].events.onInputDown.add(change_waveform);
+    }
 
     next_btn_scale = game.add.sprite(0, 0, 'next');
     next_btn_scale.inputEnabled = true;
@@ -422,7 +416,7 @@ function buttons_labels(){
     next_btn_scale.y = form3.y;
     
     Label_scale = game.add.text(next_btn_scale.x, next_btn_scale.y, scales[scale], {
-        font: '36px ' + font, fill: 'white', fontWeight: 'normal', align: 'center', stroke:'black', strokeThickness: 1
+        font: '36px ' + font, fill: 'white', align: 'center', stroke:'black', strokeThickness: 1
     });
     
     Label_scale.x = next_btn_scale.x + next_btn_scale.width / 2 - Label_scale.width * 1.25;
@@ -510,8 +504,7 @@ function stopMusic(){
 }
 
 function changeTempo(){
-    if (tempo != 0){
-                
+    if (tempo != 0){         
         try{
             clearInterval(timer);
         }catch(e){}
