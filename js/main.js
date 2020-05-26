@@ -442,7 +442,7 @@ function buttons_labels(){
     }, this);
     sound_btn.events.onInputUp.add(function(){
         rev.play();
-        sound_btn.tint = 0xfaffaf;    
+        sound_btn.tint = 0xfaffaf;
     }, this);
  
 	space_btn = game.add.sprite(525, 815, 'space_btn');
@@ -455,6 +455,8 @@ function buttons_labels(){
     reset_btn.inputEnabled = true;
     reset_btn.events.onInputDown.add(function(){
         killOsc();
+        var rnd = game.rnd.integerInRange(0, 3);
+        if(rnd == 1 && AdMob) AdMob.showInterstitial();
         game.state.start("Game");  
     }, this);
     reset_btn.tint = 0xffafff;    
