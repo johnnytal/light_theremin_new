@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-	<widget id="com.com.lighttheremin" version="7.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+		<widget id="com.com.lighttheremin" version="7.2" android-versionCode="70101" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
 		<name>Light Theremin</name>
 		<description>Turn light to sound</description>
 		<author email="johnnytal9@gmail.com" href="http://www.ilyichgames.com"> Johnny Tal </author>
@@ -34,7 +34,6 @@
 		<plugin name="cordova-plugin-insomnia" spec="*"/>
 		<plugin name="cordova-plugin-statusbar" spec="*"/>
 		<plugin name="cordova-plugin-extension" spec="*"/>
-		
 		<plugin name="cordova-plugin-whitelist" version="1"/>
 
 	    <preference name="SplashScreen"               value="splash" />
@@ -50,5 +49,4 @@
 		</plugin>
 		
 		<icon src="512x512.png" />
-		
 	</widget>
