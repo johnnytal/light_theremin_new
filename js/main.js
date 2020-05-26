@@ -84,7 +84,7 @@ var gameMain = function(game){
 
 gameMain.prototype = {
     create: function(){
-    	debug_label = game.add.text(100, 50, "No light sensor activity.\nIt might be too dark.", 
+    	debug_label = game.add.text(100, 50, "No light sensor activity.\nIt may be too dark.", 
 		{font: '36px ' + font, fill: 'white', fontWeight: 'bold', align: 'center'});
     	debug_label.x = game.world.centerX - debug_label.width / 2;
 
@@ -209,7 +209,7 @@ function readLight(reading){
         var addedText = '';
 
         if (frequency == 0){
-           addedText = "(It's too dark here)"; 
+           addedText = "(It's too dark here!)"; 
         }
         
         debug_label.text = luminosity + ' lux * ' + Math.round(factor * 100) / 100 + ' = ' + frequency_text_correct + '\n' + addedText;
@@ -228,7 +228,6 @@ function change_waveform(_btn){
 	
 	for (x=0; x<formsArray.length; x++){
 		formsArray[x].alpha = 0.55;
-		formsArray[x].scale.set(1.,1.);
 	}
 	
 	_btn.alpha = 1;

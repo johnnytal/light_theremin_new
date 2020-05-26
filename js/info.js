@@ -10,8 +10,8 @@ info.prototype = {
 	        "4. Be considerate of dogs in highly lit environments.\n\n" +
 	        "5. You can get more information in the store listing." +
 	        '\nMail me questions or suggestions at - johnnytal9@gmail.com' +
-	        "\n\nCreated by Johnny Tal - iLyichArts 2016.\nBacking music courtesy of NCTracks.\n\n" + 
-	        "Thanks for downloading, please rate if you like!", 
+	        "\n\nCreated by Johnny Tal - iLyichArts 2016.\nBacking tracks courtesy of NCTracks.\n\n" + 
+	        "Thank you for downloading! Please rate if you like!", 
         {font: '29px ' + font, fill: 'white', align: 'left'});
         
         return_btn = game.add.sprite(300, 930, 'home_btn');
@@ -21,7 +21,7 @@ info.prototype = {
             game.state.start("Game");
         }, this);
         
-        game.add.text(110, 840, '(Interstitial ad will be displayed before return to main screen)', {
+        game.add.text(110, 840, '(An ad will be displayed before return to main screen)', {
             font: '22px ' + font, fill: 'white', fontWeight: 'normal', align: 'center'
         });
     }

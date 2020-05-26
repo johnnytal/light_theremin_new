@@ -40,10 +40,10 @@ preloader.prototype = {
         game.load.spritesheet('asteroid', 'assets/images/asteroid1.png', 1024/8, 107);
         game.load.image('band_btn', 'assets/images/band_btn.png');
 
-        game.load.audio('acoustic', 'assets/audio/acoustic_CM_104.ogg');
-        game.load.audio('blues', 'assets/audio/blues_CM120.ogg');
-        game.load.audio('clean', 'assets/audio/clean_Am_120.ogg');
-        game.load.audio('funky', 'assets/audio/funky_Cm_120.ogg');       
+        game.load.audio('acoustic', 'assets/audio/acoustic.mp3');
+        game.load.audio('blues', 'assets/audio/blues.mp3');
+        game.load.audio('clean', 'assets/audio/clean.mp3');
+        game.load.audio('funky', 'assets/audio/funky.mp3');       
     },
     
     create: function(){
