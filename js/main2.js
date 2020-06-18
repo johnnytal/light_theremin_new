@@ -133,7 +133,7 @@ function startGUI() {
     gui.add(config, 'FORM', 
     { 'sin': 'sin', 'square': 'square', 'tri': 'tri', 'saw': 'saw' }).name('FORM').onFinishChange(change_waveform);
 
-    gui.add(config, 'REVERB', 0, 1).name('REVERB').onFinishChange(change_waveform);
+    gui.add(config, 'REVERB', 0, 1).name('REVERB').onFinishChange(change_reverb);
     gui.add(config, 'GLISSANDO', 0, 500).name('GLISSANDO');
     
     gui.add(config, 'METRONOME', 60, 240).name('METRONOME').onFinishChange(changeTempo);
@@ -239,7 +239,9 @@ function change_waveform(){
     //osc.pause();
     //rev.pause();
     
-    killOsc();
+    osc.set({wave:config.FORM});
+    
+ /*   killOsc();
     
     if (osc == null && rev == null){
 	    if (config.FORM != 'square'){
@@ -250,7 +252,11 @@ function change_waveform(){
 	    }
 	    
 	    rev = T("reverb", {room:0.8, damp:0.3, mix:config.REVERB}, osc).play();
-    }
+    }*/
+}
+
+function change_reverb(){
+	rev.set({mix: config.REVERB});
 }
 
 function buttons_labels(){
