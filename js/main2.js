@@ -93,13 +93,14 @@ gameMain.prototype = {
 
     	frequency = 440;
         note = 53; 
-        last_frequency = 0;
+        last_frequency = 0;   
+    	factor = 6;
   
         startGUI();
 
         loadSounds();
     	buttons_labels();
-    	initSpaceGame();
+    	//initSpaceGame();
 
         osc = T("cosc", {wave:config.FORM, beats:7, mul:0.40});
         rev = T("reverb", {room:0.8, damp:0.3, mix:config.REVERB}, osc).play();
@@ -113,7 +114,7 @@ gameMain.prototype = {
 	        } catch(e){}
         }, 1000); 
         
-        calibrate();
+        //calibrate();
 
         watchReading();
         initAd();
@@ -133,7 +134,7 @@ function startGUI () {
      'Blues': 'Blues', 'Pentatonic': 'Pentatonic', 'Hijaz': 'Hijaz' }).name('SCALE');
      
     gui.add(config, 'FORM', 
-    { 'sin': 'sin', 'square': 'square', 'tri': "tri", 'saw': 'saw' }).name('FORM').onFinishChange(change_waveform);
+    { 'sin': 'sin', 'square': 'square', 'tri': 'tri', 'saw': 'saw' }).name('FORM').onFinishChange(change_waveform);
 
     gui.add(config, 'REVERB', 0, 1).name('REVERB').onFinishChange(change_waveform);
     gui.add(config, 'GLISSANDO', 0, 500).name('GLISSANDO');
