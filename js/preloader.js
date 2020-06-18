@@ -13,8 +13,7 @@ preloader.prototype = {
         });
         
         game.load.image('hubble', 'assets/images/hubble.jpg');
-        game.load.image('bg', 'assets/images/bg.jpg');
-   
+
         game.load.image('reset', 'assets/images/reset.png');
         game.load.image('sound_btn', 'assets/images/sound_btn.png');
         game.load.image('space_btn', 'assets/images/space.png');
@@ -27,8 +26,6 @@ preloader.prototype = {
         game.load.image('prev_game', 'assets/images/prev_game.png');
 
         game.load.image('home_btn', 'assets/images/return.png');
-
-        game.load.spritesheet('blank', 'assets/images/blank.png', 594/4, 120);
 
         game.load.spritesheet('scooter', 'assets/images/scooter.png', 99, 308/2);
         game.load.spritesheet('asteroid', 'assets/images/asteroid1.png', 1024/8, 107);

@@ -2,16 +2,6 @@ var gameMain = function(game){
     var osc, rev, luminosity, frequency, frequency_check;
     var note, last_frequency, factor, timer;
 
-	config = {
-		GLISSANDO: 18,
-		REVERB: 0.5,
-		SCALE: 'Major',
-		FORM: 'tri',
-		METRONOME: 240,
-		CALIBRATE: 880,
-		NO_METRONOME: false
-	};
-	
 	video_playing = false; 
     pb_time = 440;
     score = 0;
@@ -80,6 +70,17 @@ var gameMain = function(game){
         'C9','Db9','E9','F9','G9','Ab9','B9',
         'C10','Db10','E10','F10','G10','Ab10','B10'
     ];
+
+	config = {
+		GLISSANDO: 18,
+		REVERB: 0.5,
+		SCALE: notes_major,
+		FORM: 'tri',
+		METRONOME: 240,
+		CALIBRATE: 880,
+		NO_METRONOME: false
+	};
+	
 };
 
 gameMain.prototype = {
@@ -88,8 +89,10 @@ gameMain.prototype = {
     	bg.alpha = 0.6;
     	           	
     	sprite_light = game.add.sprite(0, 0, 'sprite_light');
-    	sprite_light.x = game.world.centerX - sprite_light.width / 2;
-    	sprite_light.y = game.world.centerY - sprite_light.height / 2;
+    	sprite_light.anchor.set(.5, .5);
+    	sprite_light.scale.set(1.43, 3.254);
+    	sprite_light.x = game.world.centerX;
+    	sprite_light.y = game.world.centerY;
 
     	sprite_light.frame = 14;
 
@@ -99,7 +102,7 @@ gameMain.prototype = {
     	debug_label.y = game.world.centerY - debug_label.height / 2 - 100;
 
     	frequency = 440;
-        note = 53; 
+        note = Math.round(config.SCALE.length / 2); 
         last_frequency = 0;   
     	factor = 6;
   
@@ -120,7 +123,7 @@ gameMain.prototype = {
         }, 1000); 
 
         watchReading();
-        initAd();
+        //initAd();
 
     }, 
     update: function(){
@@ -134,19 +137,19 @@ function startGUI() {
     gui = new dat.GUI({ width: 300 });
     
     gui.add(config, 'SCALE', 
-    {'No Scale': 'No Scale', 'Chromatic': 'Chromatic', 'Major': 'Major', 'Minor': 'Minor',
-     'Blues': 'Blues', 'Pentatonic': 'Pentatonic', 'Hijaz': 'Hijaz' }).name('SCALE');
+    {'No Scale': 'No Scale', 'Chromatic': notes, 'Major': notes_major, 'Minor': notes_minor,
+     'Blues': notes_blues, 'Pentatonic': notes_penta, 'Hijaz': notes_hijaz }).name('Scale');
      
     gui.add(config, 'FORM', 
-    { 'sin': 'sin', 'pulse': 'pulse', 'tri': 'tri', 'saw': 'saw' }).name('FORM').onFinishChange(change_waveform);
+    { 'sin': 'sin', 'pulse': 'pulse', 'tri': 'tri', 'saw': 'saw' }).name('Waveform').onFinishChange(change_waveform);
 
-    gui.add(config, 'REVERB', 0, 1).name('REVERB').onFinishChange(change_reverb);
-    gui.add(config, 'GLISSANDO', 0, 500).name('GLISSANDO');
+    gui.add(config, 'REVERB', 0, 1).name('Reverb').onFinishChange(change_reverb);
+    gui.add(config, 'GLISSANDO', 0, 500).name('Portamento');
     
-    gui.add(config, 'METRONOME', 60, 240).name('METRONOME').onFinishChange(changeTempo);
-    gui.add(config, 'NO_METRONOME').name('NO METRONOME').onFinishChange(changeTempo);
+    gui.add(config, 'METRONOME', 60, 240).name('Metronome').onFinishChange(changeTempo);
+    gui.add(config, 'NO_METRONOME').name('No Metronome').onFinishChange(changeTempo);
     
-    gui.add(config, 'CALIBRATE', 100, 2000).name('CALIBRATE').step(10).onFinishChange(calibrate);    
+    gui.add(config, 'CALIBRATE', 100, 2000).name('Calibration').step(10).onFinishChange(calibrate);    
     
     gui.close();
 }
@@ -190,37 +193,15 @@ function readLight(reading){
             if (frequency_check < last_frequency && note > 0){ // semitone down
                 note--; 
             }
-            else if (frequency_check > last_frequency){ // semitone up //TODO!!
+            else if (frequency_check > last_frequency && note > config.SCALE.length - 1){ // semitone up
            		note++;
             }
             
+            frequency = teoria.note(config.SCALE[note]).fq();
+            frequency_text = config.SCALE[note];
+      
             if (note < 88 && note > -1){
             	sprite_light.frame = Math.round(note / 2);
-            }
-            
-            if (config.SCALE == 'Chromatic'){
-                frequency = teoria.note(notes[note]).fq();
-                frequency_text = notes[note];
-            } 
-            else if (config.SCALE == 'Major'){
-                frequency = teoria.note(notes_major[note]).fq();
-                frequency_text = notes_major[note];
-            } 
-            else if (config.SCALE ==  'Minor'){
-                frequency = teoria.note(notes_minor[note]).fq();
-                frequency_text = notes_minor[note];
-            } 
-            else if (config.SCALE == 'Blues'){
-                frequency = teoria.note(notes_blues[note]).fq();
-                frequency_text = notes_blues[note];
-            } 
-            else if (config.SCALE == 'Pentatonic'){
-                frequency = teoria.note(notes_penta[note]).fq();
-                frequency_text = notes_penta[note];
-            } 
-            else if (config.SCALE == 'Hijaz'){
-                frequency = teoria.note(notes_hijaz[note]).fq();
-                frequency_text = notes_hijaz[note];
             }
         }
         else{
