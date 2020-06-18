@@ -26,5 +26,3 @@ info.prototype = {
         });
     }
 };
-
-

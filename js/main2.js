@@ -1,6 +1,6 @@
 var gameMain = function(game){   
     var osc, rev, luminosity, frequency, frequency_check;
-    var note, last_frequency, factor, form, scale, reverb, glissando, tempo, timer;
+    var note, last_frequency, factor, timer;
 
 	config = {
 		GLISSANDO: 18,
@@ -11,8 +11,7 @@ var gameMain = function(game){
 		CALIBRATE: 440
 	};
 	
-	video_playing = false;
-	    
+	video_playing = false; 
     pb_time = 440;
     score = 0;
     bestScore = 0;
@@ -97,10 +96,10 @@ gameMain.prototype = {
         last_frequency = 0;
   
         startGUI();
-        
-        initSpaceGame();
+
         loadSounds();
     	buttons_labels();
+    	initSpaceGame();
 
         osc = T("cosc", {wave:config.FORM, beats:7, mul:0.40});
         rev = T("reverb", {room:0.8, damp:0.3, mix:config.REVERB}, osc).play();
@@ -114,10 +113,10 @@ gameMain.prototype = {
 	        } catch(e){}
         }, 1000); 
         
-        calibrate(config.CALIBRATE);
+        calibrate();
 
         watchReading();
-        //initAd();
+        initAd();
     }, 
     update: function(){
     	if (video_playing){
@@ -346,7 +345,6 @@ function changeTempo(){
     }
     
     else{
-        Label_tempo.text = tempos[tempo];
         watchReading();
     }
 }
@@ -421,7 +419,7 @@ function show_video(){
         
         insttext2.x = game.world.centerX - insttext2.width / 2;
         setTimeout(function(){
-        	 game.add.tween(insttext2).to( { alpha: 0}, 4500, Phaser.Easing.Linear.None, true);
+        	 game.add.tween(insttext2).to({ alpha: 0}, 4500, Phaser.Easing.Linear.None, true);
         }, 3000);
 
         scoreInterval = setInterval(function(){
