@@ -13,18 +13,10 @@ preloader.prototype = {
         });
         
         game.load.image('hubble', 'assets/images/hubble.jpg');
-        game.load.image('bg', 'assets/images/bg2.jpg');
-        game.load.image('next', 'assets/images/next.png');
-        
-        game.load.image('plus0', 'assets/images/plus0.png');
-        game.load.image('plus1', 'assets/images/plus1.png');
-        game.load.image('plus2', 'assets/images/plus2.png');
-        game.load.image('plus3', 'assets/images/plus3.png');
-        game.load.image('plus4', 'assets/images/plus4.png');
-        
+        game.load.image('bg', 'assets/images/bg.jpg');
+
         game.load.image('calibrate', 'assets/images/calibrate.png');       
         game.load.image('reset', 'assets/images/reset.png');
-        game.load.image('xtraBg', 'assets/images/xtraBg.png');
         game.load.image('sound_btn', 'assets/images/sound_btn.png');
         game.load.image('space_btn', 'assets/images/space.png');
         game.load.image('info_btn', 'assets/images/info.png');
