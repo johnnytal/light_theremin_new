@@ -1,6 +1,6 @@
 var gameMain = function(game){   
     var osc, rev, luminosity, frequency, frequency_check;
-    var note, last_frequency, factor, timer, first_calibration;
+    var note, last_frequency, factor, timer;
 
 	config = {
 		GLISSANDO: 18,
@@ -92,11 +92,10 @@ gameMain.prototype = {
     	debug_label.x = game.world.centerX - debug_label.width / 2;
     	debug_label.y = game.world.centerY - debug_label.height / 2;
 
-		first_calibration = false;
     	frequency = 440;
         note = 53; 
         last_frequency = 0;   
-    	factor = 0;
+    	factor = 6;
   
         loadSounds();
     	buttons_labels();
@@ -175,10 +174,6 @@ function getReading(){
 
 function readLight(reading){
     luminosity = parseInt(reading.intensity);
-    
-    if (!first_calibration){
-    	calibrate();
-    }
 
     frequency_check = luminosity * factor;
     frequency_text = "";
@@ -246,14 +241,16 @@ function change_waveform(){
     
     killOsc();
     
-    if (config.FORM != 'square'){
-        osc = T("cosc", {wave:config.FORM, freq:frequency, beats:7, mul:0.40});  
+    if (osc == null && rev == null){
+	    if (config.FORM != 'square'){
+	        osc = T("cosc", {wave:config.FORM, freq:frequency, beats:7, mul:0.40});  
+	    }
+	    else{
+	        osc = T("square", {freq:frequency, mul:0.20});
+	    }
+	    
+	    rev = T("reverb", {room:0.8, damp:0.3, mix:config.REVERB}, osc).play();
     }
-    else{
-        osc = T("square", {freq:frequency, mul:0.20});
-    }
-    
-    rev = T("reverb", {room:0.8, damp:0.3, mix:config.REVERB}, osc).play();
 }
 
 function buttons_labels(){
@@ -360,8 +357,6 @@ function changeTempo(){
 }
 
 function calibrate(){
-	first_calibration = true;
-	
     if (luminosity > 1){
         factor = config.CALIBRATE / luminosity;
     }
