@@ -78,7 +78,8 @@ var gameMain = function(game){
 		FORM: 'tri',
 		METRONOME: 240,
 		CALIBRATE: 880,
-		NO_METRONOME: false
+		NO_METRONOME: false,
+		SENSITIVITY: 25
 	};
 	
 };
@@ -123,7 +124,7 @@ gameMain.prototype = {
         }, 1000); 
 
         watchReading();
-        //initAd();
+        initAd();
 
     }, 
     update: function(){
@@ -149,6 +150,7 @@ function startGUI() {
     gui.add(config, 'METRONOME', 60, 240).name('Metronome').onFinishChange(changeTempo);
     gui.add(config, 'NO_METRONOME').name('No Metronome').onFinishChange(changeTempo);
     
+    gui.add(config, 'SENSITIVITY', 1, 100).name('Sensitivity').step(1);    
     gui.add(config, 'CALIBRATE', 100, 2000).name('Calibration').step(10).onFinishChange(calibrate);    
     
     gui.close();
@@ -188,12 +190,12 @@ function readLight(reading){
     frequency_check = luminosity * factor;
     frequency_text = "";
  
-    if (Math.abs(frequency_check - last_frequency) > Math.round(25 + (config.GLISSANDO / 6))){
+    if (Math.abs(frequency_check - last_frequency) > config.SENSITIVITY){
         if (config.SCALE != 'No Scale'){
             if (frequency_check < last_frequency && note > 0){ // semitone down
                 note--; 
             }
-            else if (frequency_check > last_frequency && note > config.SCALE.length - 1){ // semitone up
+            else if (frequency_check > last_frequency && note < config.SCALE.length - 1){ // semitone up
            		note++;
             }
             
