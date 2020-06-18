@@ -120,7 +120,7 @@ gameMain.prototype = {
         }, 1000); 
 
         watchReading();
-       // initAd();
+        initAd();
 
     }, 
     update: function(){
@@ -194,8 +194,8 @@ function readLight(reading){
            		note++;
             }
             
-            if (note < 29 && note > -1){
-            	sprite_light.frame = note;
+            if (note < 87 && note > -1){
+            	sprite_light.frame = Math.round(note / 3);
             }
             
             if (config.SCALE == 'Chromatic'){
@@ -268,7 +268,7 @@ function buttons_labels(){
 		game.state.start("Info");
     }, this);
     
-    options_btn = game.add.sprite(700, 50, 'options_btn');
+    options_btn = game.add.sprite(700, 600, 'options_btn');
     options_btn.inputEnabled = true;
     options_btn.events.onInputDown.add(function(){
     	if (gui.closed){
@@ -299,7 +299,7 @@ function buttons_labels(){
 		show_video();
     }, this);
 
-    reset_btn = game.add.sprite(20, options_btn.y, 'reset');
+    reset_btn = game.add.sprite(40, 40, 'reset');
     reset_btn.inputEnabled = true;
     reset_btn.events.onInputDown.add(function(){
     	stopMusic();
