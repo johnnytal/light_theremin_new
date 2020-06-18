@@ -86,11 +86,17 @@ gameMain.prototype = {
     create: function(){
     	bg = game.add.image(0, 0, 'bg');
     	bg.alpha = 0.6;
+    	           	
+    	sprite_light = game.add.sprite(0, 0, 'sprite_light');
+    	sprite_light.x = game.world.centerX - sprite_light.width / 2;
+    	sprite_light.y = game.world.centerY - sprite_light.height / 2;
+
+    	sprite_light.frame = 14;
 
     	debug_label = game.add.text(100, 50, "No light sensor activity.\nIt may be too dark.", 
 		{font: '36px ' + font, fill: 'white', fontWeight: 'bold', align: 'center'});
     	debug_label.x = game.world.centerX - debug_label.width / 2;
-    	debug_label.y = game.world.centerY - debug_label.height / 2;
+    	debug_label.y = game.world.centerY - debug_label.height / 2 - 100;
 
     	frequency = 440;
         note = 53; 
@@ -115,6 +121,7 @@ gameMain.prototype = {
 
         watchReading();
        // initAd();
+
     }, 
     update: function(){
     	if (video_playing){
@@ -124,14 +131,14 @@ gameMain.prototype = {
 };
 
 function startGUI() {
-    var gui = new dat.GUI({ width: 300 });
+    gui = new dat.GUI({ width: 300 });
     
     gui.add(config, 'SCALE', 
     {'No Scale': 'No Scale', 'Chromatic': 'Chromatic', 'Major': 'Major', 'Minor': 'Minor',
      'Blues': 'Blues', 'Pentatonic': 'Pentatonic', 'Hijaz': 'Hijaz' }).name('SCALE');
      
     gui.add(config, 'FORM', 
-    { 'sin': 'sin', 'square': 'square', 'tri': 'tri', 'saw': 'saw' }).name('FORM').onFinishChange(change_waveform);
+    { 'sin': 'sin', 'pulse': 'pulse', 'tri': 'tri', 'saw': 'saw' }).name('FORM').onFinishChange(change_waveform);
 
     gui.add(config, 'REVERB', 0, 1).name('REVERB').onFinishChange(change_reverb);
     gui.add(config, 'GLISSANDO', 0, 500).name('GLISSANDO');
@@ -180,11 +187,15 @@ function readLight(reading){
  
     if (Math.abs(frequency_check - last_frequency) > Math.round(25 + (config.GLISSANDO / 6))){
         if (config.SCALE != 'No Scale'){
-            if (frequency_check < last_frequency){ // semitone down
+            if (frequency_check < last_frequency && note > 0){ // semitone down
                 note--; 
             }
-            else if (frequency_check > last_frequency){ // semitone up
-                note++;
+            else if (frequency_check > last_frequency){ // semitone up //TODO!!
+           		note++;
+            }
+            
+            if (note < 29 && note > -1){
+            	sprite_light.frame = note;
             }
             
             if (config.SCALE == 'Chromatic'){
@@ -235,24 +246,8 @@ function readLight(reading){
     }
 }
 
-function change_waveform(){ 
-    //osc.pause();
-    //rev.pause();
-    
+function change_waveform(){
     osc.set({wave:config.FORM});
-    
- /*   killOsc();
-    
-    if (osc == null && rev == null){
-	    if (config.FORM != 'square'){
-	        osc = T("cosc", {wave:config.FORM, freq:frequency, beats:7, mul:0.40});  
-	    }
-	    else{
-	        osc = T("square", {freq:frequency, mul:0.20});
-	    }
-	    
-	    rev = T("reverb", {room:0.8, damp:0.3, mix:config.REVERB}, osc).play();
-    }*/
 }
 
 function change_reverb(){
@@ -261,11 +256,10 @@ function change_reverb(){
 
 function buttons_labels(){
     band_btn = game.add.sprite(20, 900, 'band_btn');
-
     band_btn.inputEnabled = true;
     band_btn.events.onInputDown.add(playMusic);
 
-    info_btn = game.add.sprite(700, 50, 'info_btn');
+    info_btn = game.add.sprite(700, 900, 'info_btn');
     info_btn.inputEnabled = true;
     info_btn.events.onInputDown.add(function(){
     	window.plugin.lightsensor.stop();
@@ -273,8 +267,21 @@ function buttons_labels(){
     	killOsc();
 		game.state.start("Info");
     }, this);
+    
+    options_btn = game.add.sprite(700, 50, 'options_btn');
+    options_btn.inputEnabled = true;
+    options_btn.events.onInputDown.add(function(){
+    	if (gui.closed){
+    		options_btn.tint = 0xffff44;
+			gui.closed = false;
+		}
+		else{
+			options_btn.tint = 0xffffff;
+			gui.closed = true;
+		}
+    }, this);
 
-    sound_btn = game.add.sprite(info_btn.x, 900, 'sound_btn');
+    sound_btn = game.add.sprite(info_btn.x, 750, 'sound_btn');
     sound_btn.inputEnabled = true;
     sound_btn.tint = 0xfaffaf;
     sound_btn.events.onInputDown.add(function(){
@@ -286,13 +293,13 @@ function buttons_labels(){
         sound_btn.tint = 0xfaffaf;
     }, this);
  
-	space_btn = game.add.sprite(info_btn.x, 750, 'space_btn');
+	space_btn = game.add.sprite(info_btn.x - 200, 900, 'space_btn');
     space_btn.inputEnabled = true;
     space_btn.events.onInputDown.add(function(){
 		show_video();
     }, this);
 
-    reset_btn = game.add.sprite(20, info_btn.y, 'reset');
+    reset_btn = game.add.sprite(20, options_btn.y, 'reset');
     reset_btn.inputEnabled = true;
     reset_btn.events.onInputDown.add(function(){
     	stopMusic();

@@ -14,12 +14,14 @@ preloader.prototype = {
         
         game.load.image('hubble', 'assets/images/hubble.jpg');
         game.load.image('bg', 'assets/images/bg.jpg');
-
-        game.load.image('calibrate', 'assets/images/calibrate.png');       
+   
         game.load.image('reset', 'assets/images/reset.png');
         game.load.image('sound_btn', 'assets/images/sound_btn.png');
         game.load.image('space_btn', 'assets/images/space.png');
         game.load.image('info_btn', 'assets/images/info.png');
+        game.load.image('options_btn', 'assets/images/options.png');
+       
+        game.load.spritesheet('sprite_light', 'assets/images/sprite_light.png', 3000 / 5 , 2028 / 6);
         
         game.load.image('next_game', 'assets/images/next_game.png');
         game.load.image('prev_game', 'assets/images/prev_game.png');
