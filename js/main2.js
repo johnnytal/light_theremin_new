@@ -7,8 +7,9 @@ var gameMain = function(game){
 		REVERB: 0.5,
 		SCALE: 'Major',
 		FORM: 'tri',
-		TEMPO: 120,
-		CALIBRATE: 440
+		METRONOME: 120,
+		CALIBRATE: 880,
+		NO_METRONOME: false
 	};
 	
 	video_playing = false; 
@@ -94,13 +95,13 @@ gameMain.prototype = {
     	frequency = 440;
         note = 53; 
         last_frequency = 0;   
-    	factor = 6;
+    	factor = 0;
   
         startGUI();
 
         loadSounds();
     	buttons_labels();
-    	//initSpaceGame();
+    	initSpaceGame();
 
         osc = T("cosc", {wave:config.FORM, beats:7, mul:0.40});
         rev = T("reverb", {room:0.8, damp:0.3, mix:config.REVERB}, osc).play();
@@ -113,11 +114,9 @@ gameMain.prototype = {
 	            StatusBar.hide;
 	        } catch(e){}
         }, 1000); 
-        
-        //calibrate();
 
         watchReading();
-        initAd();
+       // initAd();
     }, 
     update: function(){
     	if (video_playing){
@@ -139,8 +138,10 @@ function startGUI () {
     gui.add(config, 'REVERB', 0, 1).name('REVERB').onFinishChange(change_waveform);
     gui.add(config, 'GLISSANDO', 0, 500).name('GLISSANDO');
     
-    gui.add(config, 'TEMPO', 60, 240).name('TEMPO').onFinishChange(changeTempo);
-    gui.add(config, 'CALIBRATE', 100, 2000).name('CALIBRATE').step(10).onFinishChange(calibrate);
+    gui.add(config, 'METRONOME', 60, 240).name('METRONOME').onFinishChange(changeTempo);
+    gui.add(config, 'NO_METRONOME').name('NO METRONOME').onFinishChange(changeTempo);
+    
+    gui.add(config, 'CALIBRATE', 100, 2000).name('CALIBRATE').step(10).onFinishChange(calibrate);    
 }
 
 function watchReading(){
@@ -168,11 +169,15 @@ function getReading(){
         window.plugin.lightsensor.getReading(function success(reading){
             readLight(reading);
         });
-    }, 60000 / config.TEMPO);
+    }, 60000 / config.METRONOME);
 }
 
 function readLight(reading){
     luminosity = parseInt(reading.intensity);
+    
+    if (!first_calibration){
+    	calibrate();
+    }
 
     frequency_check = luminosity * factor;
     frequency_text = "";
@@ -217,7 +222,6 @@ function readLight(reading){
         }
 
         var frequency_text_correct = frequency_text.replace("#", "♯");
-        
         var addedText = '';
 
         if (frequency == 0){
@@ -243,7 +247,7 @@ function change_waveform(){
         osc = T("cosc", {wave:config.FORM, freq:frequency, beats:7, mul:0.40});  
     }
     else{
-        osc = T("square", {freq:frequency, mul:0.20}).play();
+        osc = T("square", {freq:frequency, mul:0.20});
     }
     
     rev = T("reverb", {room:0.8, damp:0.3, mix:config.REVERB}, osc).play();
@@ -335,7 +339,7 @@ function stopMusic(){
 }
 
 function changeTempo(){
-    if (tempo != 0){         
+    if (!config.NO_METRONOME){         
         try{
             clearInterval(timer);
         }catch(e){}
@@ -351,6 +355,8 @@ function changeTempo(){
 }
 
 function calibrate(){
+	first_calibration = true;
+	
     if (luminosity > 1){
         factor = config.CALIBRATE / luminosity;
     }
@@ -539,7 +545,7 @@ function initAd(){
     
  	if(AdMob) AdMob.createBanner({
   	  	adId: admobid.banner,
-  	  	position: AdMob.AD_POSITION.TOP_CENTER,
+  	  	position: AdMob.AD_POSITION.BOTTOM_CENTER,
   	  	autoShow: true
   	});
   	
