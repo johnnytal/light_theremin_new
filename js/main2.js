@@ -1,6 +1,6 @@
 var gameMain = function(game){   
     var osc, rev, luminosity, frequency, frequency_check;
-    var note, last_frequency, factor, timer;
+    var note, last_frequency, factor, timer, first_calibration;
 
 	config = {
 		GLISSANDO: 18,
@@ -92,13 +92,12 @@ gameMain.prototype = {
     	debug_label.x = game.world.centerX - debug_label.width / 2;
     	debug_label.y = game.world.centerY - debug_label.height / 2;
 
+		first_calibration = false;
     	frequency = 440;
         note = 53; 
         last_frequency = 0;   
     	factor = 0;
   
-        startGUI();
-
         loadSounds();
     	buttons_labels();
     	initSpaceGame();
@@ -125,7 +124,7 @@ gameMain.prototype = {
     }
 };
 
-function startGUI () {
+function startGUI() {
     var gui = new dat.GUI({ width: 300 });
     
     gui.add(config, 'SCALE', 
@@ -142,6 +141,8 @@ function startGUI () {
     gui.add(config, 'NO_METRONOME').name('NO METRONOME').onFinishChange(changeTempo);
     
     gui.add(config, 'CALIBRATE', 100, 2000).name('CALIBRATE').step(10).onFinishChange(calibrate);    
+    
+    gui.close();
 }
 
 function watchReading(){
@@ -240,8 +241,10 @@ function readLight(reading){
 }
 
 function change_waveform(){ 
-    osc.pause();
-    rev.pause();
+    //osc.pause();
+    //rev.pause();
+    
+    killOsc();
     
     if (config.FORM != 'square'){
         osc = T("cosc", {wave:config.FORM, freq:frequency, beats:7, mul:0.40});  
@@ -263,6 +266,7 @@ function buttons_labels(){
     info_btn.inputEnabled = true;
     info_btn.events.onInputDown.add(function(){
     	window.plugin.lightsensor.stop();
+    	stopMusic();
     	killOsc();
 		game.state.start("Info");
     }, this);
@@ -288,6 +292,7 @@ function buttons_labels(){
     reset_btn = game.add.sprite(20, info_btn.y, 'reset');
     reset_btn.inputEnabled = true;
     reset_btn.events.onInputDown.add(function(){
+    	stopMusic();
         killOsc();
         var rnd = game.rnd.integerInRange(0, 3);
         if(rnd == 1 && AdMob) AdMob.showInterstitial();
@@ -366,7 +371,6 @@ function calibrate(){
 }
 
 function killOsc(){
-	stopMusic();
     osc.pause();
     rev.pause();
     osc.remove();
@@ -387,6 +391,7 @@ function loadSounds(){
 function show_video(){
     if (!video_playing){
     	killOsc();
+    	stopMusic();
         watchReadingGame();
 	    
         score = 0;

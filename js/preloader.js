@@ -39,6 +39,7 @@ preloader.prototype = {
     },
     
     create: function(){
+    	 startGUI();
     	 game.state.start("Game");
     }
 };
