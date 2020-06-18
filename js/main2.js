@@ -7,7 +7,7 @@ var gameMain = function(game){
 		REVERB: 0.5,
 		SCALE: 'Major',
 		FORM: 'tri',
-		METRONOME: 120,
+		METRONOME: 240,
 		CALIBRATE: 880,
 		NO_METRONOME: false
 	};
@@ -194,8 +194,8 @@ function readLight(reading){
            		note++;
             }
             
-            if (note < 87 && note > -1){
-            	sprite_light.frame = Math.round(note / 3);
+            if (note < 88 && note > -1){
+            	sprite_light.frame = Math.round(note / 2);
             }
             
             if (config.SCALE == 'Chromatic'){
@@ -299,7 +299,7 @@ function buttons_labels(){
 		show_video();
     }, this);
 
-    reset_btn = game.add.sprite(40, 40, 'reset');
+    reset_btn = game.add.sprite(40, 600, 'reset');
     reset_btn.inputEnabled = true;
     reset_btn.events.onInputDown.add(function(){
     	stopMusic();
