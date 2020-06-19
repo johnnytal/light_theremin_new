@@ -72,13 +72,13 @@ var gameMain = function(game){
     ];
 
 	config = {
-		GLISSANDO: 25,
+		GLISSANDO: 40,
 		REVERB: 0.6,
 		SCALE: notes_blues,
 		FORM: 'tri',
-		METRONOME: 240,
+		METRONOME: 120,
 		CALIBRATE: 880,
-		NO_METRONOME: false,
+		NO_METRONOME: true,
 		SENSITIVITY: 10,
 		NO_GRAPHICS: false
 	};
@@ -104,7 +104,7 @@ gameMain.prototype = {
     	frequency = 440;
         note = Math.round(config.SCALE.length / 2); 
         last_frequency = 0;   
-    	factor = 6;
+    	factor = 5;
   
         loadSounds();
     	buttons_labels();
@@ -147,7 +147,7 @@ function startGUI() {
     gui.add(config, 'GLISSANDO', 0, 500).name('Portamento');
     
     gui.add(config, 'METRONOME', 60, 240).name('Metronome').onFinishChange(changeTempo);
-    gui.add(config, 'NO_METRONOME').name('No Metronome').onFinishChange(changeTempo);
+    gui.add(config, 'NO_METRONOME').name('No Metronome').onFinishChange(toggleMetronome);
     
     gui.add(config, 'SENSITIVITY', 1, 100).name('Sensitivity').step(1);    
     gui.add(config, 'CALIBRATE', 100, 2000).name('Calibration').step(10).onFinishChange(calibrate);    
@@ -347,8 +347,20 @@ function changeTempo(){
 
         getReading();
     }
-    
+}
+
+function toggleMetronome(){
+	if (!config.NO_METRONOME){   
+        try{
+            clearInterval(timer);
+        }catch(e){}
+        
+        window.plugin.lightsensor.stop();
+
+        getReading();
+	}
     else{
+    	window.plugin.lightsensor.stop();
         watchReading();
     }
 }
