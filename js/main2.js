@@ -49,7 +49,7 @@ var gameMain = function(game){
         'C7','D7','Eb7','F7','G7','Ab7','Bb7',
         'C8','D8','Eb8','F8','G8','Ab8','Bb8',
         'C9','D9','Eb9','F9','G9','Ab9','Bb9',
-        'C10','D10','Eb10','F10','G10','Ab10','Bb10'
+        'C10','D10','Eb10','F10','G10','Ab10'
     ];
     
     notes_penta = [
@@ -68,7 +68,7 @@ var gameMain = function(game){
         'C7','Db7','E7','F7','G7','Ab7','B7',
         'C8','Db8','E8','F8','G8','Ab8','B8',
         'C9','Db9','E9','F9','G9','Ab9','B9',
-        'C10','Db10','E10','F10','G10','Ab10','B10'
+        'C10','Db10','E10','F10','G10'
     ];
 
 	config = {
@@ -303,22 +303,22 @@ function playMusic(){
 		if (config.SCALE == 'No Scale'){			
 			allMusic[game.rnd.integerInRange(0, 3)].play();
 		}
-		else if (config.SCALE == notes){
+		else if (config.SCALE.length == notes.length){
 			allMusic[game.rnd.integerInRange(0, 3)].play();
 		}
-		else if (config.SCALE == notes_major){
+		else if (config.SCALE.length == notes_major.length){
 			sfxAcoustic.play();
 		}
-		else if (config.SCALE == notes_minor){
+		else if (config.SCALE.length == notes_minor.length){
 			sfxClean.play();
 		}
-		else if (config.SCALE == notes_blues){
+		else if (config.SCALE.length == notes_blues.length){
 			sfxBlues.play();
 		}
-		else if (config.SCALE == notes_penta){
+		else if (config.SCALE.length == notes_penta.length){
 			sfxFunky.play();
 		}
-		else if (config.SCALE == notes_hijaz){
+		else if (config.SCALE.length == notes_hijaz.length){
 			sfxClean.play();
 		}
 	}
@@ -339,6 +339,7 @@ function stopMusic(){
 }
 
 function calibrate_scale(){
+	config.SCALE = config.SCALE.split(',');
 	note = Math.round(note / prop);
 }
 
