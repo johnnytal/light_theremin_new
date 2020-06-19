@@ -99,7 +99,7 @@ gameMain.prototype = {
     	debug_label = game.add.text(0, 0, "No light sensor activity.\nIt may be too dark.", 
 		{font: '42px ' + font, fill: '#ffafac', fontWeight: 'bold', align: 'center', stroke: 'black', strokeThickness: 1});
     	debug_label.x = game.world.centerX - debug_label.width / 2;
-    	debug_label.y = game.world.centerY - debug_label.height / 2 + 100;
+    	debug_label.y = game.world.centerY - debug_label.height / 2 + 45;
 
     	frequency = 440;
         note = Math.round(config.SCALE.length / 2); 
@@ -219,7 +219,7 @@ function readLight(reading){
            addedText = "(It's too dark here!)"; 
         }
         
-        debug_label.text = luminosity + ' lux * ' + Math.round(factor * 100) / 100 + ' (factor) = ' + frequency_text_correct + '\n' + addedText;
+        debug_label.text = luminosity + ' lux * ' + Math.round(factor * 100) / 100 + ' factor = ' + frequency_text_correct + '\n' + addedText;
         debug_label.x = game.world.centerX - debug_label.width / 2;
         
         var glide = T("param", {value: last_frequency});
@@ -302,22 +302,22 @@ function playMusic(){
 		if (config.SCALE == 'No Scale'){			
 			allMusic[game.rnd.integerInRange(0, 3)].play();
 		}
-		else if (config.SCALE == 'Chromatic'){
+		else if (config.SCALE == notes){
 			allMusic[game.rnd.integerInRange(0, 3)].play();
 		}
-		else if (config.SCALE == 'Major'){
+		else if (config.SCALE == notes_major){
 			sfxAcoustic.play();
 		}
-		else if (config.SCALE == 'Minor'){
+		else if (config.SCALE == notes_minor){
 			sfxClean.play();
 		}
-		else if (config.SCALE == 'Blues'){
+		else if (config.SCALE == notes_blues){
 			sfxBlues.play();
 		}
-		else if (config.SCALE == 'Pentatonic'){
+		else if (config.SCALE == notes_penta){
 			sfxFunky.play();
 		}
-		else if (config.SCALE == 'Hijaz'){
+		else if (config.SCALE == notes_hijaz){
 			sfxClean.play();
 		}
 	}
@@ -404,8 +404,9 @@ function show_video(){
 	        clearInterval(scoreInterval);
 	        asteroids.callAll('kill');
 	        game.time.events.stop();
-	
-	        if(AdMob) AdMob.showInterstitial();
+			
+	        var rnd = game.rnd.integerInRange(0, 3);
+	        if(rnd == 1 && AdMob) AdMob.showInterstitial();
 			game.state.start("Game");
 	    }, this);
 
