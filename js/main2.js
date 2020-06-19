@@ -118,7 +118,7 @@ gameMain.prototype = {
 	            window.plugins.insomnia.keepAwake();
 	        } catch(e){}
 	        try{
-	            StatusBar.hide;
+	           StatusBar.hide();
 	        } catch(e){}
         }, 1000); 
 
@@ -146,11 +146,11 @@ function startGUI() {
     gui.add(config, 'REVERB', 0, 1).name('Reverb').onFinishChange(change_reverb);
     gui.add(config, 'GLISSANDO', 0, 500).name('Portamento');
     
-    gui.add(config, 'METRONOME', 60, 240).name('Metronome').onFinishChange(changeTempo);
     gui.add(config, 'NO_METRONOME').name('No Metronome').onFinishChange(toggleMetronome);
-    
+    gui.add(config, 'METRONOME', 60, 240).name('Metronome BPM').onFinishChange(changeTempo);
+
     gui.add(config, 'SENSITIVITY', 1, 100).name('Sensitivity').step(1);    
-    gui.add(config, 'CALIBRATE', 100, 2000).name('Calibration').step(10).onFinishChange(calibrate);    
+    gui.add(config, 'CALIBRATE', 100, 2000).name('Calibrate').step(10).onFinishChange(calibrate);    
     
     gui.add(config, 'NO_GRAPHICS').name('Hide Animation').onFinishChange(toggleGraphics);    
     
@@ -250,6 +250,8 @@ function buttons_labels(){
     	window.plugin.lightsensor.stop();
     	stopMusic();
     	killOsc();
+	 	try{AdMob.hideBanner();}catch(e){}
+		
 		game.state.start("Info");
     }, this);
     
@@ -341,6 +343,12 @@ function stopMusic(){
 function calibrate_scale(){
 	config.SCALE = config.SCALE.split(',');
 	note = Math.round(note / prop);
+	
+	stopMusic();
+	
+	try{
+		StatusBar.hide();
+	}
 }
 
 function changeTempo(){

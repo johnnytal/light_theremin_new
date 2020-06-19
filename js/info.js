@@ -2,7 +2,7 @@ var info = function(game){};
 
 info.prototype = {
     create: function(){  
-        game.add.text(35, 35,
+        game.add.text(25, 25,
 	        "- Locate the light sensor on your device.\n\n" +
 	        "- Direct a lamp/flashlight to the light sensor, and\n" +
 	        "use your hand to cover and reveal the sensor.\n You can also use a lamp dimmer.\n\n" +
@@ -13,9 +13,9 @@ info.prototype = {
 	        "- You can get more information in the store listing." +
 	        '\nMail me for questions and suggestions - johnnytal9@gmail.com' +
 	        "\n\nCreated by Johnny Tal 2016. Please rate if you like!\nBacking tracks courtesy of NCTracks.\n\n", 
-        {font: '29px ' + font, fill: 'white', align: 'left'});
+        {font: '28px ' + font, fill: 'white', align: 'left'});
         
-        return_btn = game.add.sprite(0, 930, 'home_btn');
+        return_btn = game.add.sprite(0, 940, 'home_btn');
     	return_btn.x = game.world.centerX - return_btn.width / 2;
         return_btn.inputEnabled = true;
         return_btn.events.onInputDown.add(function(){
