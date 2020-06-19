@@ -72,14 +72,14 @@ var gameMain = function(game){
     ];
 
 	config = {
-		GLISSANDO: 18,
-		REVERB: 0.5,
-		SCALE: notes_major,
+		GLISSANDO: 25,
+		REVERB: 0.6,
+		SCALE: notes_blues,
 		FORM: 'tri',
 		METRONOME: 240,
 		CALIBRATE: 880,
 		NO_METRONOME: false,
-		SENSITIVITY: 25,
+		SENSITIVITY: 10,
 		NO_GRAPHICS: false
 	};
 	
@@ -96,10 +96,10 @@ gameMain.prototype = {
     	sprite_light.x = game.world.centerX;
     	sprite_light.y = game.world.centerY;
 
-    	debug_label = game.add.text(100, 50, "No light sensor activity.\nIt may be too dark.", 
+    	debug_label = game.add.text(0, 0, "No light sensor activity.\nIt may be too dark.", 
 		{font: '42px ' + font, fill: '#ffafac', fontWeight: 'bold', align: 'center', stroke: 'black', strokeThickness: 1});
     	debug_label.x = game.world.centerX - debug_label.width / 2;
-    	debug_label.y = game.world.centerY - debug_label.height / 2 - 100;
+    	debug_label.y = game.world.centerY - debug_label.height / 2 + 100;
 
     	frequency = 440;
         note = Math.round(config.SCALE.length / 2); 
@@ -191,7 +191,7 @@ function readLight(reading){
     frequency_check = luminosity * factor;
     frequency_text = "";
  
-    if (Math.abs(frequency_check - last_frequency) > config.SENSITIVITY){
+    if (Math.abs(frequency_check - last_frequency) > config.SENSITIVITY * factor){
         if (config.SCALE != 'No Scale'){
             if (frequency_check < last_frequency && note > 0){ // semitone down
                 note--; 
@@ -219,7 +219,7 @@ function readLight(reading){
            addedText = "(It's too dark here!)"; 
         }
         
-        debug_label.text = luminosity + ' lux * ' + Math.round(factor * 100) / 100 + ' = ' + frequency_text_correct + '\n' + addedText;
+        debug_label.text = luminosity + ' lux * ' + Math.round(factor * 100) / 100 + ' (factor) = ' + frequency_text_correct + '\n' + addedText;
         debug_label.x = game.world.centerX - debug_label.width / 2;
         
         var glide = T("param", {value: last_frequency});
