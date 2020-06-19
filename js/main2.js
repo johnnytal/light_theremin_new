@@ -79,7 +79,8 @@ var gameMain = function(game){
 		METRONOME: 240,
 		CALIBRATE: 880,
 		NO_METRONOME: false,
-		SENSITIVITY: 25
+		SENSITIVITY: 25,
+		NO_GRAPHICS: false
 	};
 	
 };
@@ -95,10 +96,8 @@ gameMain.prototype = {
     	sprite_light.x = game.world.centerX;
     	sprite_light.y = game.world.centerY;
 
-    	sprite_light.frame = 14;
-
     	debug_label = game.add.text(100, 50, "No light sensor activity.\nIt may be too dark.", 
-		{font: '36px ' + font, fill: 'white', fontWeight: 'bold', align: 'center'});
+		{font: '42px ' + font, fill: '#ffafac', fontWeight: 'bold', align: 'center', stroke: 'black', strokeThickness: 1});
     	debug_label.x = game.world.centerX - debug_label.width / 2;
     	debug_label.y = game.world.centerY - debug_label.height / 2 - 100;
 
@@ -153,6 +152,8 @@ function startGUI() {
     gui.add(config, 'SENSITIVITY', 1, 100).name('Sensitivity').step(1);    
     gui.add(config, 'CALIBRATE', 100, 2000).name('Calibration').step(10).onFinishChange(calibrate);    
     
+    gui.add(config, 'NO_GRAPHICS').name('Hide Animation').onFinishChange(toggleGraphics);    
+    
     gui.close();
 }
 
@@ -201,10 +202,10 @@ function readLight(reading){
             
             frequency = teoria.note(config.SCALE[note]).fq();
             frequency_text = config.SCALE[note];
-      
-            if (note < 88 && note > -1){
-            	sprite_light.frame = Math.round(note / 2);
-            }
+
+			var frame = Math.round(note / (config.SCALE.length / 44));
+			if (frame > 44) frame = 44;
+        	sprite_light.frame = frame;  
         }
         else{
             frequency = frequency_check; 
@@ -531,6 +532,15 @@ function initSpaceGame(){
      
     hubble = game.add.tileSprite(0, 0, WIDTH, 1275, 'hubble');
     hubble.visible = false;
+}
+
+function toggleGraphics(){
+    if (config.NO_GRAPHICS){
+    	sprite_light.visible = false;
+    }
+    else{
+    	sprite_light.visible = true;
+    }
 }
 
 function initAd(){
