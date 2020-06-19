@@ -1,6 +1,6 @@
 var gameMain = function(game){   
     var osc, rev, luminosity, frequency, frequency_check;
-    var note, last_frequency, factor, timer;
+    var note, last_frequency, factor, timer, prop;
 
 	video_playing = false; 
     pb_time = 440;
@@ -138,7 +138,7 @@ function startGUI() {
     
     gui.add(config, 'SCALE', 
     {'No Scale': 'No Scale', 'Chromatic': notes, 'Major': notes_major, 'Minor': notes_minor,
-     'Blues': notes_blues, 'Pentatonic': notes_penta, 'Hijaz': notes_hijaz }).name('Scale');
+     'Blues': notes_blues, 'Pentatonic': notes_penta, 'Hijaz': notes_hijaz }).name('Scale').onFinishChange(calibrate_scale);
      
     gui.add(config, 'FORM', 
     { 'sin': 'sin', 'pulse': 'pulse', 'tri': 'tri', 'saw': 'saw' }).name('Waveform').onFinishChange(change_waveform);
@@ -202,6 +202,7 @@ function readLight(reading){
             
             frequency = teoria.note(config.SCALE[note]).fq();
             frequency_text = config.SCALE[note];
+            prop = config.SCALE.length / note;
 
 			var frame = Math.round(note / (config.SCALE.length / 44));
 			if (frame > 44) frame = 44;
@@ -335,6 +336,10 @@ function stopMusic(){
 			allMusic[m].stop();
 		}
 	}	
+}
+
+function calibrate_scale(){
+	note = note / prop;
 }
 
 function changeTempo(){
