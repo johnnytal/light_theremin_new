@@ -124,7 +124,6 @@ gameMain.prototype = {
 
         watchReading();
         initAd();
-
     }, 
     update: function(){
     	if (video_playing){
@@ -348,7 +347,7 @@ function calibrate_scale(){
 	
 	try{
 		StatusBar.hide();
-	}
+	}catch(e){}
 }
 
 function changeTempo(){
