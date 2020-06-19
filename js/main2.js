@@ -339,7 +339,7 @@ function stopMusic(){
 }
 
 function calibrate_scale(){
-	note = note / prop;
+	note = Math.round(note / prop);
 }
 
 function changeTempo(){
