@@ -72,14 +72,14 @@ var gameMain = function(game){
     ];
 
 	config = {
-		GLISSANDO: 40,
-		REVERB: 0.6,
+		GLISSANDO: 60,
+		REVERB: 0.7,
 		SCALE: notes_blues,
 		FORM: 'tri',
 		METRONOME: 240,
 		CALIBRATE: 880,
-		NO_METRONOME: true,
-		SENSITIVITY: 90,
+		USE_METRONOME: false,
+		SENSITIVITY: 99,
 		NO_GRAPHICS: false
 	};
 	
@@ -94,7 +94,7 @@ gameMain.prototype = {
     	sprite_light.alpha = 0.75;
     	sprite_light.smoothed = false;
     	anim = sprite_light.animations.add('walk');
-    	anim.play(10, true);
+    	anim.play(12, true);
 
     	debug_label = game.add.text(0, 0, "No light sensor activity.\nIt may be too dark.", 
 		{font: '42px ' + font, fill: '#ffcfcd', fontWeight: 'bold', align: 'center', stroke: 'black', strokeThickness: 2});
@@ -110,7 +110,7 @@ gameMain.prototype = {
     	buttons_labels();
     	initSpaceGame();
 
-        osc = T("cosc", {wave:config.FORM, beats:7, mul:0.40});
+        osc = T("cosc", {wave:config.FORM, beats:7, mul:0.45});
         rev = T("reverb", {room:0.8, damp:0.3, mix:config.REVERB}, osc).play();
 		
 		setTimeout(function(){
@@ -145,7 +145,7 @@ function startGUI() {
     gui.add(config, 'REVERB', 0, 1).name('Reverb').onFinishChange(change_reverb);
     gui.add(config, 'GLISSANDO', 0, 500).name('Portamento');
     
-    gui.add(config, 'NO_METRONOME').name('No Metronome').onFinishChange(toggleMetronome);
+    gui.add(config, 'USE_METRONOME').name('Use Metronome').onFinishChange(toggleMetronome);
     gui.add(config, 'METRONOME', 60, 360).name('Metronome BPM').step(10).onFinishChange(changeTempo);
 
     gui.add(config, 'SENSITIVITY', 1, 100).name('Sensitivity').step(1);    
@@ -155,6 +155,7 @@ function startGUI() {
     
     btn = document.getElementsByClassName('close-button')[0].style.visibility = 'hidden';
     document.getElementsByClassName('dg')[0].style.marginTop = '20px';
+    document.getElementsByClassName('dg')[1].style.cssFloat = 'left';
 	
     //gui.close();
 }
@@ -257,7 +258,7 @@ function buttons_labels(){
 		game.state.start("Info");
     }, this);
     
-    options_btn = game.add.sprite(700, 600, 'options_btn');
+    options_btn = game.add.sprite(700, 50, 'options_btn');
     options_btn.inputEnabled = true;
     options_btn.events.onInputDown.add(function(){
     	if (gui.closed){
@@ -270,7 +271,7 @@ function buttons_labels(){
 		}
     }, this);
 
-    sound_btn = game.add.sprite(info_btn.x, 750, 'sound_btn');
+    sound_btn = game.add.sprite(info_btn.x, 200, 'sound_btn');
     sound_btn.inputEnabled = true;
     sound_btn.tint = 0xfaffaf;
     sound_btn.events.onInputDown.add(function(){
@@ -288,7 +289,7 @@ function buttons_labels(){
 		show_video();
     }, this);
 
-    reset_btn = game.add.sprite(40, 600, 'reset');
+    reset_btn = game.add.sprite(info_btn.x, 350, 'reset');
     reset_btn.inputEnabled = true;
     reset_btn.events.onInputDown.add(function(){
     	stopMusic();
@@ -354,7 +355,7 @@ function calibrate_scale(){
 }
 
 function changeTempo(){
-    if (!config.NO_METRONOME){         
+    if (!config.USE_METRONOME){         
         try{
             clearInterval(timer);
         }catch(e){}
@@ -366,7 +367,7 @@ function changeTempo(){
 }
 
 function toggleMetronome(){
-	if (!config.NO_METRONOME){   
+	if (!config.USE_METRONOME){   
         try{
             clearInterval(timer);
         }catch(e){}
