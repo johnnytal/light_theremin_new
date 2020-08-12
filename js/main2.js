@@ -76,30 +76,30 @@ var gameMain = function(game){
 		REVERB: 0.6,
 		SCALE: notes_blues,
 		FORM: 'tri',
-		METRONOME: 120,
+		METRONOME: 240,
 		CALIBRATE: 880,
 		NO_METRONOME: true,
-		SENSITIVITY: 10,
+		SENSITIVITY: 90,
 		NO_GRAPHICS: false
 	};
 	
 };
 
 gameMain.prototype = {
-    create: function(){
-    	bg = game.add.image(0, 0, 'bg');
-    	bg.alpha = 0.6;
-    	           	
+    create: function(){ 	           	
     	sprite_light = game.add.sprite(0, 0, 'sprite_light');
     	sprite_light.anchor.set(.5, .5);
-    	sprite_light.scale.set(1.43, 3.254);
     	sprite_light.x = game.world.centerX;
-    	sprite_light.y = game.world.centerY;
+    	sprite_light.y = game.world.centerY + 150;
+    	sprite_light.alpha = 0.75;
+    	sprite_light.smoothed = false;
+    	anim = sprite_light.animations.add('walk');
+    	anim.play(10, true);
 
     	debug_label = game.add.text(0, 0, "No light sensor activity.\nIt may be too dark.", 
-		{font: '42px ' + font, fill: '#ffafac', fontWeight: 'bold', align: 'center', stroke: 'black', strokeThickness: 1});
+		{font: '42px ' + font, fill: '#ffcfcd', fontWeight: 'bold', align: 'center', stroke: 'black', strokeThickness: 2});
     	debug_label.x = game.world.centerX - debug_label.width / 2;
-    	debug_label.y = game.world.centerY - debug_label.height / 2 + 45;
+    	debug_label.y = game.world.centerY - debug_label.height / 2 + 150;
 
     	frequency = 440;
         note = Math.round(config.SCALE.length / 2); 
@@ -146,14 +146,17 @@ function startGUI() {
     gui.add(config, 'GLISSANDO', 0, 500).name('Portamento');
     
     gui.add(config, 'NO_METRONOME').name('No Metronome').onFinishChange(toggleMetronome);
-    gui.add(config, 'METRONOME', 60, 240).name('Metronome BPM').onFinishChange(changeTempo);
+    gui.add(config, 'METRONOME', 60, 360).name('Metronome BPM').step(10).onFinishChange(changeTempo);
 
     gui.add(config, 'SENSITIVITY', 1, 100).name('Sensitivity').step(1);    
-    gui.add(config, 'CALIBRATE', 100, 2000).name('Calibrate').step(10).onFinishChange(calibrate);    
+    gui.add(config, 'CALIBRATE', 100, 2000).name('Light range').step(10).onFinishChange(calibrate);    
     
     gui.add(config, 'NO_GRAPHICS').name('Hide Animation').onFinishChange(toggleGraphics);    
     
-    gui.close();
+    btn = document.getElementsByClassName('close-button')[0].style.visibility = 'hidden';
+    document.getElementsByClassName('dg')[0].style.marginTop = '20px';
+	
+    //gui.close();
 }
 
 function watchReading(){
@@ -190,7 +193,7 @@ function readLight(reading){
     frequency_check = luminosity * factor;
     frequency_text = "";
  
-    if (Math.abs(frequency_check - last_frequency) > config.SENSITIVITY * factor){
+    if (Math.abs(frequency_check - last_frequency) > (100 - config.SENSITIVITY) * factor){
         if (config.SCALE != 'No Scale'){
             if (frequency_check < last_frequency && note > 0){ // semitone down
                 note--; 
@@ -205,7 +208,7 @@ function readLight(reading){
 
 			var frame = Math.round(note / (config.SCALE.length / 44));
 			if (frame > 44) frame = 44;
-        	sprite_light.frame = frame;  
+        	sprite_light.scale.set(frame / 10, frame / 10);  
         }
         else{
             frequency = frequency_check; 

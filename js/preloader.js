@@ -20,7 +20,8 @@ preloader.prototype = {
         game.load.image('info_btn', 'assets/images/info.png');
         game.load.image('options_btn', 'assets/images/options.png');
        
-        game.load.spritesheet('sprite_light', 'assets/images/flash.png', 3000 / 5, 3042 / 9);
+       // game.load.spritesheet('sprite_light', 'assets/images/flash.png', 3000 / 5, 3042 / 9);
+        game.load.spritesheet('sprite_light', 'assets/images/rotating.png', 2048 / 4, 1536 / 3);
         
         game.load.image('next_game', 'assets/images/next_game.png');
         game.load.image('prev_game', 'assets/images/prev_game.png');
