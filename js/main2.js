@@ -146,7 +146,7 @@ function startGUI() {
     gui.add(config, 'GLISSANDO', 0, 500).name('Portamento');
     
     gui.add(config, 'USE_METRONOME').name('Use Metronome').onFinishChange(toggleMetronome);
-    gui.add(config, 'METRONOME', 60, 360).name('Metronome BPM').step(10).onFinishChange(changeTempo);
+    gui.add(config, 'METRONOME', 60, 360).name('Metronome BPM').step(5).onFinishChange(changeTempo);
 
     gui.add(config, 'SENSITIVITY', 1, 100).name('Sensitivity').step(1);    
     gui.add(config, 'CALIBRATE', 100, 2000).name('Light range').step(10).onFinishChange(calibrate);    
