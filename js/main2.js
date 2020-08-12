@@ -258,7 +258,7 @@ function buttons_labels(){
 		game.state.start("Info");
     }, this);
     
-    options_btn = game.add.sprite(700, 50, 'options_btn');
+    options_btn = game.add.sprite(700, 600, 'options_btn');
     options_btn.inputEnabled = true;
     options_btn.events.onInputDown.add(function(){
     	if (gui.closed){
@@ -271,7 +271,7 @@ function buttons_labels(){
 		}
     }, this);
 
-    sound_btn = game.add.sprite(info_btn.x, 200, 'sound_btn');
+    sound_btn = game.add.sprite(info_btn.x, 750, 'sound_btn');
     sound_btn.inputEnabled = true;
     sound_btn.tint = 0xfaffaf;
     sound_btn.events.onInputDown.add(function(){
@@ -289,7 +289,7 @@ function buttons_labels(){
 		show_video();
     }, this);
 
-    reset_btn = game.add.sprite(info_btn.x, 350, 'reset');
+    reset_btn = game.add.sprite(40, 600, 'reset');
     reset_btn.inputEnabled = true;
     reset_btn.events.onInputDown.add(function(){
     	stopMusic();
